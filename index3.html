@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>东风雪铁龙</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=yes">
+    <meta name="format-detection" content="email=yes">
+
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+    <script src="js/FontAuto.js"></script>
+</head>
+<body>
+<div class="head-top-bg">雪铁龙</div>
+<dl class="acticity-3 luck-tit">
+    <dt><i class="a"></i>购车订金优惠券抽奖<i class="b"></i></dt>
+</dl>
+<div class="luck">
+    <a class="luck-btn" href="javascript:void(0)"></a>
+    <div class="luck-pan"></div>
+</div>
+
+<form id="priza-result" class="priza-result" method="post" action="join.html" style="display: none;">
+    <div class="head-top-bg">雪铁龙</div>
+    <div class="one-head"></div>
+    <div class="one-1">
+        <dl>
+            <dt>东风雪铁龙官方旗舰店
+                商品优惠券</dt>
+            <dd>截止2016.4.15前有效</dd>
+        </dl>
+        <dl class="one-2">
+            <dt>¥ <span>0</span></dt>
+            <dd>满499元使用</dd>
+        </dl>
+    </div>
+    <input class="jiang" type="submit" value="确认领取"/>
+</form>
+
+<div id="prize_result_none" class="prize_result_none" style="display: none;">
+    <div class="head-top-bg">雪铁龙</div>
+    <div class="join-head"></div>
+    <div class="link">
+        <li><a class="link-to" href="https://citroen.tmall.com/"><img src=" images/link.png" /></a></li>
+    </div>
+    <div class="index3-bottom luck-bottom"></div>
+</div>
+
+
+
+<script src="js/zepto.min.js"></script>
+<script src="js/zepto-touch.js"></script>
+
+<script>
+    /*
+     55:谢谢参与
+     126：四等奖
+     200：三等奖
+     275：二等奖
+     345：一等奖
+     */
+    $('.luck-btn').click(function() {
+        $.ajax({
+            type: "get",
+            url: "json/result.json",
+            success: function (json) {
+                if (json.message == "success") {
+                    var deg = {
+                        degVal:360*4,
+                        result: function (val) {
+                            $('.one-2 span').text(val);
+                            window.setTimeout(function () {
+                                $('.luck,.luck-tit dt,.luck-bottom').hide();
+                                $('#prize_result').show();
+                            }, 3000);
+                        }
+                    };
+                    if (json.result == 0)//谢谢参与
+                    {
+                        deg.degVal += 55;
+                        window.setTimeout(function () {
+                            $('.luck,.luck-tit dt').hide();
+                            $('#prize_result_none').show();
+                        }, 3000);
+                    }
+                    else if (json.result == 1)//一等
+                    {
+                        deg.degVal += 345;
+                        deg.result(499);
+                    }
+                    else if (json.result == 2)//二等
+                    {
+                        deg.degVal += 275;
+                        deg.result(300);
+                    }
+                    else if (json.result == 3)//三等
+                    {
+                        deg.degVal += 200;
+                        deg.result(150);
+                    }
+                    else if (json.result == 4)//四等
+                    {
+                        deg.degVal += 126;
+                        deg.result(100);
+                    }
+                    else {
+                        alert("请求出错，请稍候出错！");
+                        return;
+                    }
+
+
+                    var panMainNode = document.querySelector('.luck-pan');
+                    panMainNode.style.transform = "rotate(" + deg.degVal + "deg)";
+                    panMainNode.style.MsTransform = "rotate(" + deg.degVal + "deg)";
+                    panMainNode.style.WebkitTransform = "rotate(" + deg.degVal + "deg)";
+                    panMainNode.style.OTransform = "rotate(" + deg.degVal + "deg)";
+                    panMainNode.style.MozTransform = "rotate(" + deg.degVal + "deg)";
+                }
+            },
+            error: function (msg) {
+                alert("请求出错，请稍候出错！");
+            }
+        })
+    });
+
+
+
+</script>
+</body>
+</html>

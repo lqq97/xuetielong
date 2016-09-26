@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>东风雪铁龙</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=yes">
+    <meta name="format-detection" content="email=yes">
+
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+    <script src="js/FontAuto.js"></script>
+</head>
+<body>
+<div class="head-top-bg">雪铁龙</div>
+<dl class="acticity-2">
+    <dt><i class="a2"></i>请查看手机短信输入验证码<i class="b2"></i></dt>
+</dl>
+<form method="post" action="index3.html">
+    <div class="form">
+    <label class="form-label5" >
+        <span class="form-name">输入验证码</span>
+        <input id="code" type="text" value="" name="" />
+        <input id="img" class="CountDown" type="button" value="" name=""/>
+    </label>
+    </div>
+    <input class="btn-2" type="submit" value="确认提交"/>
+</form>
+<div class="index2-bottom bottom"></div>
+
+<script src="js/zepto.min.js"></script>
+
+
+<script>
+    /*验证*/
+    var clickTime=new Date();
+    var clickTimeVal=clickTime.getTime();
+    var futureTimeVal=clickTimeVal+59*1000;
+    function timeDown(timeStr) {//timeStr是表示目标的时间
+        var nowTime = new Date();//表示现在的时间；
+        var Dvalue = futureTimeVal- nowTime.getTime();//目标时间-当前时间=毫秒数；
+        var seconds=Math.floor(Dvalue/1000);
+        var CountDownNode=$(".CountDown");
+        if(seconds>1){
+            CountDownNode.val(seconds+"秒后重发")
+        }
+        else{
+            CountDownNode.val("点击重发");
+            CountDownNode.addClass('time-sent');
+
+        }
+    }
+        timeDown(clickTime);
+    window.setInterval(function(){
+        timeDown(clickTime);},1000);
+
+    $('form').submit(function(){
+        var varVal= $.trim($('#code').val());
+
+        if(varVal=='')
+        {
+            alert('请输入验证码！');
+            return false;
+        }
+    });
+</script>
+
+
+</body>
+</html>
+
+
